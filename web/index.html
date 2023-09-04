@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>​</title>
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body onload="search()">
+    <nav><div id="exit" onclick="window.close()"></div><div id="title">Project Zomboid: Modmanager</div></nav>
+    <div id="toph">
+        <div class="menue active" id="add" onclick="menue('add')">Add Mods</div>
+        <div class="menue" id="collection" onclick="menue('collection')">Collections</div>
+        <div class="menue" id="installed" onclick="menue('installed')">Installed</div>
+        <div class="menue" id="settings" onclick="menue('settings')">Settings</div>
+        <div class="menue" id="about" onclick="menue('about')">About</div>
+        <div class="menue" id="file" ><div id="upload" onclick="document.getElementById('hiddenupload').click();"></div></div>
+    </div>
+    <main>
+        <input type="file" style="display: none;" id="hiddenupload" accept=".ini">
+        <input type="text" placeholder="Press ENTER to Search" id="Search" value="">
+    <table spellcheck="false">
+        <tr id="head">
+            <th>Name</th>
+            <th>Url</th>
+        </tr>
+        <tr id="child" style="display: none;">
+            <th class="name">Name</th>
+            <th class="url">Url</th>
+        </tr>
+    </table>
+    <div id="info"></div>
+    </main>
+    <script>
+        var searchbox = document.querySelector("#Search");
+        searchbox.addEventListener("keypress", function(event) {
+            if (event.key == "Enter") {
+                event.preventDefault();
+                search();
+            }
+        });
+    </script>
+</body>
+<script type="text/javascript">
+    editing=0;
+    wid=0;
+    id=0;
+    mapid=0;
+    const fileInput = document.getElementById('hiddenupload');
+    fileInput.addEventListener('change', function(event) {
+            // Check if a file has been selected
+            if (event.target.files.length > 0) {
+                const selectedFile = event.target.files[0];
+                const fileName = selectedFile.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const fileContents = e.target.result;
+                    const title = document.querySelector("#title");
+                    title.textContent = "Editing: "+fileName+" AutoSafe is enabled";
+                    editing=1;
+                    eel.get_file_content(fileContents);
+                };
+                reader.readAsText(selectedFile);
+            }
+        });
+    active = "add";
+    function menue(id){
+        active = id;
+        document.querySelector('#add').classList.remove('active');
+        document.querySelector('#collection').classList.remove('active');
+        document.querySelector('#installed').classList.remove('active');
+        document.querySelector('#settings').classList.remove('active');
+        document.querySelector('#about').classList.remove('active');
+        document.querySelector('#'+id).classList.add('active');
+        if(id=="about"){
+            document.querySelector("main").innerHTML="Made by nikidersniki<br><a href='https://github.com/nikidersniki/PZ_modmanager'>Github</a>";
+        }
+        else if(id=="add"){
+            document.querySelector('main').innerHTML="<main><input type='text' placeholder='Press ENTER to Search' id='Search' value=''><table spellcheck='false'><tr id='head'><th>Name</th><th>Url</th></tr><tr id='child' style='display: none;'><th class='name'>Name</th><th class='url'>Url</th></tr></table><div id='info'></div></main>";
+            search();
+            var searchbox = document.querySelector("#Search");
+            searchbox.addEventListener("keypress", function(event) {
+            if (event.key == "Enter") {
+                event.preventDefault();
+                search();
+            }
+        });
+        }
+    }
+    function install(){
+        if (editing==0){
+            window.alert("You need to open a file first.");
+        }
+        else{
+            eel.install(id, wid,mapid);
+        }
+    }
+    async function get_details(url){
+        wid=0;
+        id=0;
+        mapid=0;
+        console.log(url);
+        reqs = await eel.get_required_mods(url)();
+        requitements="";
+        for(req of reqs){
+            requitements = requitements + "<a href='" + req[1] + "' target='_blank'>" + req[0] + "</a>, ";
+        }
+        document.querySelector("#info").innerHTML = "Loading....";
+        Mods = await eel.get_mod_details(url)();
+        if (Mods[4]==1){
+            document.querySelector("#info").innerHTML = "<div id='modid' class='modets'>Mod ID: <textarea wrap='off' rows='1'>"+Mods[0]+"</textarea></div><div id='modwork' class='modets'> Workshop ID: <textarea rows='1' wrap='off'>"+Mods[1]+"</textarea></div><div id='modmap' class='modets'> Map Folder: <textarea rows='1' wrap='off'>"+Mods[2]+"</textarea></div><div id='modvehicle' class='modets'> Vehicle IDs: <textarea rows='1' wrap='off'>"+Mods[3]+"</textarea></div><div id='req' class='modets'>Requirements: "+requitements+"</div><h3>If you identify any errors, simply insert a comma + space followed by the correct value.<br>Also please manually add the requirements.</h3><button id='uninstall'>Uninstall Mod</button>";
+        }
+        else{
+            document.querySelector("#info").innerHTML = "<div id='modid' class='modets'>Mod ID: <textarea wrap='off' rows='1'>"+Mods[0]+"</textarea></div><div id='modwork' class='modets'> Workshop ID: <textarea rows='1' wrap='off'>"+Mods[1]+"</textarea></div><div id='modmap' class='modets'> Map Folder: <textarea rows='1' wrap='off'>"+Mods[2]+"</textarea></div><div id='modvehicle' class='modets'> Vehicle IDs: <textarea rows='1' wrap='off'>"+Mods[3]+"</textarea></div><div id='req' class='modets'>Requirements: "+requitements+"</div><h3>If you identify any errors, simply insert a comma + space followed by the correct value.<br>Also please manually add the requirements.</h3><button id='install' onclick='install()'>Install Mod</button>";
+        }
+        wid = Mods[1];
+        id = Mods[0];
+        mapid = Mods[2];
+    }
+    async function search() {
+        const childElements = document.querySelectorAll(".child");
+        childElements.forEach(child => {
+            child.remove(); // Remove each child element
+        });
+        name = document.querySelector("#Search").value;
+        // Call the Python function and get the result
+        const result = await eel.search_mod_on_workshop(name)();
+        // Log the result in the console
+        for(modid of result){
+            const table = document.querySelector('table');
+            const mod = table.querySelector('#child');
+            const newmod = mod.cloneNode();
+                  newmod.classList.add("child");
+            const name = document.createElement("td");
+            const url = document.createElement("td");
+            const img = document.createElement("td");
+            const urlObject = new URL(modid[1]);
+            const idValue = urlObject.searchParams.get("id");
+            name.innerHTML = modid[0];
+            name.addEventListener('click', function() {get_details(idValue);});
+            url.innerHTML = '<div onclick="window.open(\'' + modid[1] + '\', \'_blank\')">' + modid[1] + '</div>';
+            img.innerHTML = '<img src="'+modid[2]+'">'; 
+            newmod.style="";
+            newmod.id=idValue;
+            newmod.appendChild(name);
+            newmod.appendChild(url);
+            newmod.appendChild(img);
+            table.appendChild(newmod);
+        }
+    }
+</script>
+</html>

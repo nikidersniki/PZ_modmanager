@@ -1,0 +1,222 @@
+@font-face {
+    font-family: main;
+    src: url(font/CORBEL.TTF);
+}
+@font-face {
+    font-family: bolt;
+    src: url(font/Corbel\ Bold.ttf);
+}
+html{
+    border:2px rgb(138, 138, 138) solid;
+    height: 793px;
+    border-radius: 5px;
+}
+body{
+    font-family: main;
+    margin:0;
+    color:white;
+    overflow:hidden;
+}
+main{
+    height: 740px;
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 7%, rgba(28,28,28,0.6825105042016807) 100%);
+}
+table{
+    width:100%;
+    border-collapse: collapse;
+    flex-direction: column;
+    justify-content: space-around;
+    display: block;
+    overflow-y:auto;
+    height:500px;
+}
+tr{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    word-wrap:break-word;
+}
+tr:nth-child(odd){
+    background-color: rgba(151, 151, 151, 0.068);
+}
+tr:hover{
+    background-color: rgba(51, 17, 17, 0.493);
+}
+table, td, tr{
+    border: 1px solid grey;
+}
+#Search{
+    outline: none;
+    background-color: transparent;
+    color:white;
+    width: 100%;
+    font-size: 17px;
+    height:30px;
+    border: solid grey 2px;
+    border-top:none;
+}
+nav{
+    justify-content: left;
+    display: flex;
+    background: url(top_bar.png);
+    height:20px;
+    width:100%;
+    -webkit-app-region: drag; /* Make the area draggable */
+    border-bottom: 2px solid grey;
+}
+#toph{
+    font-family: bolt;
+    color: lightgray;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-evenly;
+    border-bottom: 2px solid grey;
+    box-shadow: inset 0px 5px 5px rgba(0, 0, 0, 0.541),inset 0px -5px 5px rgba(0, 0, 0, 0.541);
+}
+#add{
+    border-left: solid 2px grey;
+}
+
+.menue{
+    text-shadow: 0px 0px 0px 5px 5px black;
+    padding:4px 15px;
+    border-right: solid 2px black;
+    width: 100%;
+    text-align: center;
+    background: rgb(70,70,70);
+    background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(50,50,50,1) 27%, rgba(28,28,28,1) 47%, rgb(14, 14, 14) 87%, rgb(12, 12, 12) 100%);
+}
+#about{
+    border-right: solid 2px grey;
+}
+.active{
+    background: rgb(177,177,177);
+background: linear-gradient(180deg, rgba(177,177,177,1) 0%, rgba(143,143,143,1) 27%, rgba(131,131,131,1) 45%, rgba(94,94,94,1) 87%, rgba(82,82,82,1) 100%);
+}
+#exit{
+    -webkit-app-region:none;
+    z-index: 100;
+    margin-top: 1px;
+    margin-left:6px;
+    width: 18px;
+    height:18px;
+    margin-right: auto;
+    background:url(exit.png);
+    background-size: cover;
+}
+#title{
+    margin-right: auto;
+}
+.url{
+    text-decoration: underline;
+}
+::-webkit-scrollbar {
+    width: 0px;
+  }
+#info{
+    font-size: 20px;
+    width:100%;
+    height: 100%;
+    background-color: transparent;
+    border-top: 2px solid grey; 
+    overflow:visible;
+    white-space:nowrap;
+}
+td img{
+    width: 75px;
+    height:75px;
+}
+::selection {
+    color: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
+  }
+td{
+    text-align: center;
+}
+.modets{
+    margin-top: -4px;
+    font-size: 16px;
+    border:none;
+    border-bottom: 2px solid grey; 
+    padding-left: 10px;
+}
+.modets textarea{
+    position: relative;
+    top:4px;
+    height: 16px;
+    width:601px;
+    resize: none;
+    overflow: none;
+    outline: none;
+    border:none;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+}
+.modets textarea::-webkit-scrollbar{
+    height: 0px;
+}
+#install{
+    color:rgb(255, 255, 255);
+    border: none;
+    outline: none;
+    font-size: 20px;
+    width: 20%;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.733);
+    border: 1px grey double;
+    position:fixed;
+    bottom:6px;
+    left:40%;
+    right:40%;
+}
+#uninstall{
+    color:rgb(255, 255, 255);
+    border: none;
+    outline: none;
+    font-size: 20px;
+    width: 20%;
+    height: 30px;
+    background-color: rgba(177, 0, 0, 0.733);
+    border: 1px grey double;
+    position:fixed;
+    bottom:6px;
+    left:40%;
+    right:40%;
+}
+#req a{
+    color:white;
+    text-decoration: underline;
+}
+#req{
+    overflow-x: auto;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+#req::-webkit-scrollbar{
+    height:5px;
+}
+#req::-webkit-scrollbar-thumb{
+    background-color: white;
+}
+h3{
+    position: relative;
+    top:-17px;
+    text-align: center;
+    font-size: 16px;
+    color:white;
+    background-color: red;
+}
+#file{
+    border:none;
+    width: 30px;
+}
+#upload{
+    height:20px;
+    width: 20px;
+    background-image: url(file_open.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}

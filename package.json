@@ -1,0 +1,19 @@
+{
+  "name": "pzmm",
+  "version": "1.0.0",
+  "description": "Simple application to manage mods in Project Zomboid",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/nikidersniki/PZ_modmanager",
+  "keywords": [
+    "Electron",
+    "Project Zomboid"
+  ],
+  "author": "nikidersniki",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^7.2.4"
+  }
+}
