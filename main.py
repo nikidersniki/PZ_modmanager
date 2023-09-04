@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import eel
+from configparser import ConfigParser
 
 installedmods = []
 
@@ -31,33 +32,11 @@ def list_mods(content):
         print("No WorkshopItems found in the save file.")
 @eel.expose
 def install(ids,modid,mapid):
-    lines = data.split('\n')
-    # Iterate through the lines
-    for i in range(len(lines)):
-        line = lines[i]
-        if line.startswith("WorkshopItems="):
-            ca = lines[i] 
-            lines[i]=ca + modid[0]
-            print(lines[i])
-        elif line.startswith("Mods="):
-            # Update the line with the new ID
-            for mod in ids:
-                if mod == 0:
-                    print("no modid")
-                else:
-                    lines[i] = lines[i] + mod
-        elif line.startswith("Map="):
-            # Update the line with the new ID
-            for dmap in mapid:
-                if dmap == 0:
-                    print("no map")
-                else:
-                    lines[i] = lines[i] + dmap
-    # Join the lines back into an INI string
-    updated_ini_string = ''.join(lines)
-    file_path = "/Users/Nikol/Desktop/pzserver.ini" 
-    with open(file_path, 'w') as file:
-        file.write(updated_ini_string)
+    config = ConfigParser()
+    config.read("/Users/Nikol/Desktop/pzserver.ini")
+    print(config['Config']['Mods'])
+    config.set('Config','Mods','ids')
+    print(ids, modid, mapid)
 
 
 
