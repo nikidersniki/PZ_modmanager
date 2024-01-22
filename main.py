@@ -140,8 +140,7 @@ def get_required_mods(url):
     req = list(zip(*req))
     return req
 
-eel.start('index.html', mode="electron")
-
+eel.start('hello.html', mode='custom', cmdline_args=['node_modules/electron/dist/electron.exe', '.'])
 
 
 
